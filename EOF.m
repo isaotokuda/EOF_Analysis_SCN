@@ -7,7 +7,7 @@ clear all;
 close all;
 
 transient=40;  % transient time to be removed from analysis
-skip=4;        % number of points to skip in the analysis
+skip=3;        % number of points to skip in the analysis
 
 %%%%%%%%%%%%% Reading the movie data  %%%%%%%%%%
 % Sample can be downloaded from 
@@ -27,14 +27,14 @@ DataLength=fileinfo.NumberOfFrames-transient;
 cell=0;
 for i=1:skip:fileinfo.Height-1,
   for j=1:skip:fileinfo.Width-1,
-    for n=1:DataLength,
-      z(n,1)=cast(mov(transient+n).cdata(i,j,1),'double');
+    for t=1:DataLength,
+      z(t,1)=cast(mov(transient+t).cdata(i,j,1),'double');
     end
     %%%%%%%%%%%%% Pick up pixels having large amplitudes  
     if std(z)>30,
       cell=cell+1;
       for t=1:1:DataLength,
-        ts(cell,t)=cast(mov(transient+t).cdata(i,j,1),'double');
+        ts(cell,t)=z(t,1);
       end
       ylocation(cell)=i;
       xlocation(cell)=j;
